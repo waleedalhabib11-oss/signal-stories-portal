@@ -1,0 +1,15 @@
+﻿<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020"><title>Signal Stories control</title>
+<style>body{margin:0;background:#0b1020;color:#e8ecff;font:16px system-ui;display:grid;place-items:center;min-height:100vh;text-align:center;padding:24px}a.b{display:block;margin-top:18px;background:#6366f1;color:#fff;padding:16px 22px;border-radius:12px;text-decoration:none;font-weight:700}.m{color:#8f9bc4;font-size:.85rem;margin-top:14px}</style></head>
+<body><main><h2>Signal Stories control</h2><p id="s">Looking up the current control address…</p><div id="x"></div>
+<p class="m">The address changes when the home PC restarts its free tunnel. If it says offline, the PC is off or the tunnel is restarting.</p></main>
+<script>
+fetch("live.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(j=>{
+  const age=(Date.now()-Date.parse(j.at))/60000;
+  document.getElementById("s").textContent="Address published "+Math.round(age)+" min ago";
+  const a=document.createElement("a");a.className="b";a.href=j.url;a.textContent="Open control app";
+  document.getElementById("x").append(a);
+  if(age<3)location.replace(j.url);
+}).catch(()=>{document.getElementById("s").textContent="No address published yet."});
+</script></body></html>
